@@ -20,7 +20,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-
+# Any csv 
+*.csv
 # Virtual Environment
 venv/
 env/

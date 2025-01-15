@@ -2,4 +2,4 @@ pandas
 streamlit
 trading212-api
 requests
-json
+plotly

@@ -1,46 +1,48 @@
 import requests
-import os
 import json
 import csv
-from datetime import datetime
+import os
 
-url = "https://demo.trading212.com/api/v0/history/exports"
+def fetch_trading_data():
+    url = "https://live.trading212.com/api/v0/equity/portfolio"
+    headers = {"Authorization": os.getenv("TRADING212_AUTH_TOKEN")}
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return None
 
-payload = {
-  "dataIncluded": {
-    "includeDividends": True,
-    "includeInterest": True,
-    "includeOrders": True,
-    "includeTransactions": True
-  },
-  "timeFrom": "2024-01-24T14:15:22Z",
-  "timeTo": datetime.now().isoformat() + "Z"
-}
-
-headers = {
-  "Content-Type": "application/json",
-  "Authorization": os.environ.get('TRADING212_API_KEY')
-}
-
-response = requests.post(url, json=payload, headers=headers)
-
-if response.status_code == 200:
-    data = response.json()
-    print(json.dumps(data, indent=4))
-
-    # Save to CSV
-    with open('stocks.csv', 'w', newline='') as csvfile:
+def save_to_csv(data, filename='trading212_positions.csv'):
+    if not data:
+        print("No data to save.")
+        return
+    
+    with open(filename, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         
         # Write headers
-        if data:
-            writer.writerow(data[0].keys())
+        writer.writerow(data[0].keys())
         
         # Write data rows
         for row in data:
             writer.writerow(row.values())
     
-    print("Data saved to stocks.csv")
-else:
-    print(f"Error: {response.status_code}")
-    print(response.text)
+    print(f"Data saved to {filename}")
+
+def main():
+    # Fetch data
+    data = fetch_trading_data()
+    
+    if data:
+        # Print JSON output
+        print("\nAPI Response:")
+        print(json.dumps(data, indent=2))
+        
+        # Save to CSV
+        save_to_csv(data)
+
+if __name__ == "__main__":
+    main()
