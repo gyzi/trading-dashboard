@@ -10,7 +10,7 @@
 - **Environment Selection**: Choose between Demo and Live Trading212 environments.
 - **API Integration**: Fetch real-time stock prices and portfolio data from Trading212 and API Ninja.
 
-![Sample Dashboard](sample/sample-dashboard.png)
+![Sample Dashboard](sample/sample-dashbaord.png)
 
 ## Requirements
 
