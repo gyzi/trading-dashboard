@@ -3,3 +3,4 @@ streamlit
 trading212-api
 requests
 plotly
+pytz
