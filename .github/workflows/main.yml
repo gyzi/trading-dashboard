@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_IMAGE: your-dockerhub-username/trading-dashboard
+  DOCKER_IMAGE: gazali/trading-dashboard
   PLATFORMS: linux/amd64,linux/arm64
 
 jobs:
@@ -30,11 +30,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: docker/Dockerfile
+          file: ./Dockerfile
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: |
             ${{ env.DOCKER_IMAGE }}:latest
             ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache
-          cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache,mode=max
