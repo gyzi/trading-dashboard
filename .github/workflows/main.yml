@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKER_IMAGE: gazali/trading-dashboard
+  DOCKER_IMAGE: gaza7li/trading-dashboard
   PLATFORMS: linux/amd64,linux/arm64
 
 jobs:
