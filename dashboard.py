@@ -166,7 +166,11 @@ if st.sidebar.button("Submit"):
                     df['currentPrice'] = df['currentPrice_realtime'].fillna(df['currentPrice'])
                     
                     # Use stock name from API Ninja if found
-                    df['name'] = df.get('name_realtime', ticker)
+                    # Handle name_realtime column existence
+                    if 'name_realtime' in df.columns:
+                        df['name'] = df['name_realtime'].fillna(df['cleanTicker'])
+                    else:
+                        df['name'] = df['cleanTicker']
 
                 show_dashboard(df)
                 

@@ -1,20 +1,19 @@
-# Use the official Python image from Docker Hub
-FROM python:3.7
+# Use Python 3.12 (latest)
+FROM python:3.12-slim
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy requirements.txt file into the container at /app
-COPY requirements.txt .
+# Copy only required files
+COPY requirements.txt /app/
+COPY dashboard.py /app/
+COPY README.md /app/
 
-# Install any needed packages specified in requirements.txt
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
-COPY . .
-
-# Make port 8501 available for the app
+# Expose Streamlit port
 EXPOSE 8501
 
-# Run Streamlit when the container launches
+# Run dashboard
 ENTRYPOINT ["streamlit", "run", "dashboard.py", "--server.port=8501", "--server.address=0.0.0.0"]
